@@ -1,0 +1,30 @@
+server:
+  port: 11450
+spring:
+  datasource:
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/subway?useUnicode=true&characterEncoding=utf8&useSSL=true&serverTimezone=UTC
+
+    hikari:
+      maximum-pool-size: 100
+      auto-commit: true
+      minimum-idle: 10
+      read-only: false
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.CamelCaseToUnderscoresNamingStrategy
+    show-sql: false
+    database-platform: MySQL
+  neo4j:
+    uri:  neo4j://localhost:7687
+    authentication:
+      username: neo4j
+      password: 12345678
