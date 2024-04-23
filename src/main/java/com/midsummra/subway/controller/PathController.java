@@ -48,7 +48,7 @@ public class PathController {
         String[] split = pathVO.getCurrentTime().split(":");
         LocalTime localTime = LocalTime.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
         boolean isWeekend = "Sat".equals(pathVO.getCurrentDate()) || "Sun".equals(pathVO.getCurrentDate());
-        ArrayList<KShortestPathDTO> kShortestPath = stationService.findKShortestPath(pathVO.getStationA(), pathVO.getStationB());
+        ArrayList<KShortestPathDTO> kShortestPath = stationService.findKShortestPath(pathVO.getStationA(), pathVO.getStationB(), 5);
         if (kShortestPath == null || kShortestPath.isEmpty()){
             return Result.error(StatusCode.NOT_FOUND.getStatusCode(), "不存在此线路");
         }
@@ -64,9 +64,10 @@ public class PathController {
             return (int) (a.getTotalCost() - b.getTotalCost());
         });
         resultPath.add(stationPaths.get(0));
-        stationPaths.sort((a, b) -> {
-            return a.getExchanges() - b.getExchanges();
+        stationPaths.sort((a, b)->{
+            return a.getExchangeStation().size() - b.getExchangeStation().size();
         });
+        stationPaths.forEach(System.out::println);
         resultPath.add(stationPaths.get(0));
 
         return Result.succeed(resultPath);

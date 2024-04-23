@@ -26,6 +26,7 @@ public interface StationRepo extends Neo4jRepository<Station, Long> {
             "    relationshipWeightProperty: 'time'\n" +
             "})\n" +
             "YIELD index, sourceNode, targetNode, totalCost, nodeIds, costs, path\n" +
+            "WHERE all(nodeId IN nodeIds WHERE NOT gds.util.asNode(nodeId).isBlocked)\n" +
             "RETURN\n" +
             "    index,\n" +
             "    gds.util.asNode(sourceNode).stationName AS sourceNodeName,\n" +
