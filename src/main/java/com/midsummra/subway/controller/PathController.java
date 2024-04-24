@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @RestController()
 @RequestMapping("/api/path")
@@ -48,7 +49,7 @@ public class PathController {
         String[] split = pathVO.getCurrentTime().split(":");
         LocalTime localTime = LocalTime.of(Integer.parseInt(split[0]), Integer.parseInt(split[1]), Integer.parseInt(split[2]));
         boolean isWeekend = "Sat".equals(pathVO.getCurrentDate()) || "Sun".equals(pathVO.getCurrentDate());
-        ArrayList<KShortestPathDTO> kShortestPath = stationService.findKShortestPath(pathVO.getStationA(), pathVO.getStationB(), 5);
+        ArrayList<KShortestPathDTO> kShortestPath = stationService.findKShortestPath(pathVO.getStationA(), pathVO.getStationB(), 10);
         if (kShortestPath == null || kShortestPath.isEmpty()){
             return Result.error(StatusCode.NOT_FOUND.getStatusCode(), "不存在此线路");
         }
@@ -118,13 +119,16 @@ public class PathController {
         }
 
         ObjectMapper mapper = new ObjectMapper();
-        ArrayList<String> stations = mapper.readValue(lineVO.getStations(), new TypeReference<ArrayList<String>>() {
-        });
-        ArrayList<String> timetables = mapper.readValue(lineVO.getTimetables(), new TypeReference<ArrayList<String>>() {
-        });
-        ArrayList<Double> distances = mapper.readValue(lineVO.getDistances(), new TypeReference<ArrayList<Double>>() {});
-
-        return Result.succeed(timetables);
+        ArrayList<String> stations = new ArrayList<>(List.of(lineVO.getStations().split(",")));
+        ArrayList<String> timetables = new ArrayList<>(List.of(lineVO.getTimetables().split(",")));
+        List<String> split = List.of(lineVO.getDistances().split(","));
+        ArrayList<Double> distances = new ArrayList<>();
+        for (int i = 0; i < split.size(); i++) {
+            distances.add(Double.parseDouble(split.get(i)));
+        }
+        timetables.forEach(System.out::println);
+        ArrayList<com.midsummra.subway.entity.neo4j.Station> list = lineService.addLine(lineVO.getLineName(), lineVO.getSpeed(), timetables, stations, distances);
+        return Result.succeed(list);
     }
 
     @GetMapping("/getAllLine")

@@ -65,7 +65,6 @@ public class LineServiceImpl implements LineService{
     }
 
     @Override
-    @Transactional
     public ArrayList<Station> addLine(String lineName, double speed, ArrayList<String> timetable,
                                       ArrayList<String> stationNames, ArrayList<Double> distances)
                                         throws Exception{
@@ -78,7 +77,7 @@ public class LineServiceImpl implements LineService{
         if (stationNames.size() != distances.size() + 1){
             return new ArrayList<>();
         }
-        ArrayList<StationDistance> stationDistancesToSave = new ArrayList<>();
+
         for (int i = 1; i < stationNames.size(); i++) {
             StationDistance stationDistance = new StationDistance();
             stationDistance.setDistance(distances.get(i - 1));
@@ -87,10 +86,8 @@ public class LineServiceImpl implements LineService{
             stationDistance.setTime(distances.get(i - 1) / (speed * 10 / 2 / 36));
             stationDistance.setStationA(stationNames.get(i - 1));
             stationDistance.setStationB(stationNames.get(i));
-            stationDistancesToSave.add(stationDistance);
+            stationDistanceRepo.save(stationDistance);
         }
-        stationDistanceRepo.saveAll(stationDistancesToSave);
-        ArrayList<com.midsummra.subway.entity.mysql.Station> stationsToSave = new ArrayList<>();
 
         for (int i = 0; i < stationNames.size(); i++) {
             com.midsummra.subway.entity.mysql.Station station = new com.midsummra.subway.entity.mysql.Station();
@@ -102,11 +99,16 @@ public class LineServiceImpl implements LineService{
             if (i != stationNames.size() - 1){
                 station.setNextStationName(stationNames.get(i + 1));
             }
-            stationsToSave.add(station);
+            sqlStationRepo.save(station);
         }
-        sqlStationRepo.saveAll(stationsToSave);
+
         LinkedList<String> strings = new LinkedList<>(timetable);
         readTimetable(strings, lineName);
+        strings.pollFirst();
+        strings.pollLast();
+        strings.pollLast();
+        strings.add("");
+        strings.forEach(System.out::println);
         readTimetable(strings, lineName);
 
         stationNames.forEach(stationName -> result.add(stationRepo.findAllByStationName(stationName)));
@@ -127,9 +129,6 @@ public class LineServiceImpl implements LineService{
 
     private void readTimetable(LinkedList<String> rawTimetable, String lineName) throws Exception{
         String stationInfo = rawTimetable.pollFirst();
-        while (stationInfo.isEmpty()){
-            stationInfo = rawTimetable.pollFirst();
-        }
         String[] stationInfoArray = stationInfo.split("->");
         com.midsummra.subway.entity.mysql.Station station = stationService.findStation(stationInfoArray[0], lineName);
         int distance = 0;
@@ -172,6 +171,7 @@ public class LineServiceImpl implements LineService{
         } else {
             timetablesWeekday.setTimetableB(timetable);
         }
+
         rawTimetable.pollFirst();
 
         Timetables timetablesWeekend = null;
