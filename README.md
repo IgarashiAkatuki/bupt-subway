@@ -9,9 +9,12 @@
 
 ​	最后算上写前后端，测试数据，~~修bug~~ ，总共花了得60h+吧，这个工作量感觉对于大作业可能纸面上感觉不是很多，但是其中有1/3 ~ 1/2的时间是花在数据处理上的。
 
-​	因为去年比赛用过Neo4j做知识图谱生成，所以还算简单地系统学习了一下~~(虽然早就忘光了)~~  ，所以今年一看到这个大作业题目首先想到的就是Neo4j。现在看来选Neo4j是个很正确的决定，Neo4j的图数据科学库的最短路实现帮了大忙，以至于我基本上没在算法层面上有过多少犹豫，也没有在这上面浪费多少找bug的时间~~(和我用幼教vue水平写前端的时间差不多)~~。![image-20240423173051952](C:\Users\16780\AppData\Roaming\Typora\typora-user-images\image-20240423173051952.png)
+​	因为去年比赛用过Neo4j做知识图谱生成，所以还算简单地系统学习了一下~~(虽然早就忘光了)~~  ，所以今年一看到这个大作业题目首先想到的就是Neo4j。现在看来选Neo4j是个很正确的决定，Neo4j的图数据科学库的最短路实现帮了大忙，以至于我基本上没在算法层面上有过多少犹豫，也没有在这上面浪费多少找bug的时间~~(和我用幼教vue水平写前端的时间差不多)~~。
+![image](https://github.com/IgarashiAkatuki/bupt-subway/assets/109781981/7954f730-d7f6-4623-8d7a-6bd28abf3c4b)
 
-![image-20240423173125693](C:\Users\16780\AppData\Roaming\Typora\typora-user-images\image-20240423173125693.png)
+
+![image](https://github.com/IgarashiAkatuki/bupt-subway/assets/109781981/9fc0f1b0-f3e1-4bdb-9aa2-0ab89caaec9c)
+
 
 ## 项目依赖
 
@@ -39,7 +42,8 @@
 
 > 主页面
 
-![image-20240423184908775](C:\Users\16780\AppData\Roaming\Typora\typora-user-images\image-20240423184908775.png)
+![image](https://github.com/IgarashiAkatuki/bupt-subway/assets/109781981/bc266dff-f190-4e80-8346-b5b899e1ad21)
+
 
 > 路线查询
 >
@@ -47,7 +51,10 @@
 >
 > ~~恭喜平安里打败西直门成为北京最地狱的换乘站~~
 
-![image-20240423184934417](C:\Users\16780\AppData\Roaming\Typora\typora-user-images\image-20240423184934417.png)
+![image](https://github.com/IgarashiAkatuki/bupt-subway/assets/109781981/acc07edd-29b1-41c7-b381-69aa63095aa0)
+
 
 > 长距离路线查询
+
+![image](https://github.com/IgarashiAkatuki/bupt-subway/assets/109781981/e3fa4fe3-9075-440c-bcf2-29ffdab65029)
 
